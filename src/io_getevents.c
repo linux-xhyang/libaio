@@ -32,14 +32,18 @@ struct aio_ring {
 	unsigned        nr;     /* number of io_events */
 	unsigned        head;
 	unsigned        tail;
- 
+
 	unsigned        magic;
 	unsigned        compat_features;
 	unsigned        incompat_features;
 	unsigned        header_length;  /* size of aio_ring */
 };
 
+#ifndef ANDROID
 int io_getevents_0_4(io_context_t ctx, long min_nr, long nr, struct io_event * events, struct timespec * timeout)
+#else
+int io_getevents(io_context_t ctx, long min_nr, long nr, struct io_event * events, struct timespec * timeout)
+#endif
 {
 	struct aio_ring *ring;
 	ring = (struct aio_ring*)ctx;
@@ -49,9 +53,10 @@ int io_getevents_0_4(io_context_t ctx, long min_nr, long nr, struct io_event * e
 		if (ring->head == ring->tail)
 			return 0;
 	}
-	
-do_syscall:	
+
+do_syscall:
 	return __io_getevents_0_4(ctx, min_nr, nr, events, timeout);
 }
-
+#ifndef ANDROID
 DEFSYMVER(io_getevents_0_4, io_getevents, 0.4)
+#endif

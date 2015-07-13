@@ -121,7 +121,7 @@ struct iocb {
 	PADDEDptr(void *data, __pad1);	/* Return in the io completion event */
 	PADDED(unsigned key, __pad2);	/* For use in identifying io requests */
 
-	short		aio_lio_opcode;	
+	short		aio_lio_opcode;
 	short		aio_reqprio;
 	int		aio_fildes;
 

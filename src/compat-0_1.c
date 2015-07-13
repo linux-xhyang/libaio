@@ -26,7 +26,7 @@
 
 #include "syscall.h"
 
-
+#ifndef ANDROID
 /* ABI change.  Provide partial compatibility on this one for now. */
 SYMVER(compat0_1_io_cancel, io_cancel, 0.1);
 int compat0_1_io_cancel(io_context_t ctx, struct iocb *iocb)
@@ -60,3 +60,4 @@ int compat0_1_io_getevents(io_context_t ctx_id, long nr,
 			const_timeout ? &timeout : NULL);
 }
 
+#endif

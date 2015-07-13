@@ -24,8 +24,15 @@
 
 struct timespec;
 
+#ifndef ANDROID
 int io_queue_wait_0_4(io_context_t ctx, struct timespec *timeout)
+#else
+int io_queue_wait(io_context_t ctx, struct timespec *timeout)
+#endif
 {
+
 	return io_getevents(ctx, 0, 0, NULL, timeout);
 }
+#ifndef ANDROID
 DEFSYMVER(io_queue_wait_0_4, io_queue_wait, 0.4)
+#endif
